@@ -120,7 +120,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(452, 280);
+            this.ClientSize = new System.Drawing.Size(452, 90);
             this.Controls.Add(this.chkCleanup);
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.btnExport);
@@ -129,7 +129,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
-            this.Text = "SharePoint ListItem Manager 2007";
+            this.Text = "SharePoint ListItem Manager 2007 v";
             this.ResumeLayout(false);
             this.PerformLayout();
 

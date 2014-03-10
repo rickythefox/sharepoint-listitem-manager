@@ -6,6 +6,7 @@ namespace SharePointListitemManager
 {
     public partial class Form1 : Form
     {
+        private const string Version = "0.1";
         private readonly ISharepointService _sharepointService;
         private readonly IExcelService _excelService;
 
@@ -24,6 +25,7 @@ namespace SharePointListitemManager
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            this.Text += Version;
             var siteUrls = _sharepointService.GetAllSiteUrls().ToArray();
             var aSiteNames = new AutoCompleteStringCollection();
             aSiteNames.AddRange(siteUrls);
