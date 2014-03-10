@@ -104,9 +104,9 @@ namespace SharePointListitemManager
             site.AllowUnsafeUpdates = true;
             var spList = site.OpenWeb().Lists[listName];
 
-            foreach (SPListItem item in spList.Items)
+            for (var i = spList.ItemCount - 1; i > -1; i--)
             {
-                item.Delete();
+                spList.Items[i].Delete();
             }
             spList.Update();
         }

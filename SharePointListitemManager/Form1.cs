@@ -6,7 +6,7 @@ namespace SharePointListitemManager
 {
     public partial class Form1 : Form
     {
-        private const string Version = "0.1";
+        private const string Version = "0.11";
         private readonly ISharepointService _sharepointService;
         private readonly IExcelService _excelService;
 
@@ -55,15 +55,20 @@ namespace SharePointListitemManager
         {
             if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
 
+            BlockGui();
+
             var list = _sharepointService.ExportListToObjects(txtSite.Text, cbList.Text);
             _excelService.WriteListToExcel(saveFileDialog1.FileName, list);
 
-            MessageBox.Show(this, "Export complete", this.Text, MessageBoxButtons.OK);
+            MessageBox.Show(this, "Export complete", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            UnblockGui();
         }
 
         private void btnImport_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
+
+            BlockGui();
 
             if (chkCleanup.Checked)
             {
@@ -73,8 +78,9 @@ namespace SharePointListitemManager
             var list = _excelService.ReadListFromExcel(openFileDialog1.FileName);
             _sharepointService.ImportObjectsToList(txtSite.Text, cbList.Text, list);
 
-            MessageBox.Show(this, "Import complete", this.Text, MessageBoxButtons.OK);
+            MessageBox.Show(this, "Import complete", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            UnblockGui();
             chkCleanup.Checked = false;
         }
 
@@ -82,16 +88,29 @@ namespace SharePointListitemManager
         {
             if (string.IsNullOrEmpty(txtSite.Text) || string.IsNullOrEmpty(cbList.Text))
             {
-                btnExport.Enabled = false;
-                btnImport.Enabled = false;
-                chkCleanup.Enabled = false;
+                SetGuiState(true);
             }
             else
             {
-                btnExport.Enabled = true;
-                btnImport.Enabled = true;
-                chkCleanup.Enabled = true;
+                SetGuiState(false);
             }
+        }
+
+        private void SetGuiState(bool blocked)
+        {
+            btnExport.Enabled = !blocked;
+            btnImport.Enabled = !blocked;
+            chkCleanup.Enabled = !blocked;
+        }
+
+        private void BlockGui()
+        {
+            this.Cursor = Cursors.WaitCursor;
+        }
+
+        private void UnblockGui()
+        {
+            this.Cursor = Cursors.Default;
         }
     }
 }
