@@ -1,5 +1,5 @@
-sharepoint-listitem-manager
-===========================
+SharePoint 2007 listitem manager
+================================
 
 Exports and imports SharePoint 2007 list items to/from Excel
 
