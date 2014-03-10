@@ -16,9 +16,9 @@ namespace SharePointListitemManager
 
             InitializeComponent();
 
-            txtSite.TextChanged += ChangeButtonState;
-            cbList.SelectedIndexChanged += ChangeButtonState;
-            Shown += ChangeButtonState;
+            txtSite.TextChanged += ChangeGuiState;
+            cbList.SelectedIndexChanged += ChangeGuiState;
+            Shown += ChangeGuiState;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -55,30 +55,40 @@ namespace SharePointListitemManager
 
             var list = _sharepointService.ExportListToObjects(txtSite.Text, cbList.Text);
             _excelService.WriteListToExcel(saveFileDialog1.FileName, list);
+
+            MessageBox.Show(this, "Export complete", this.Text, MessageBoxButtons.OK);
         }
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            var list = _excelService.ReadListFromExcel("");
-            _sharepointService.ImportObjectsToList(txtSite.Text, cbList.Text, list);
-        }
+            if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
 
-        private void ChangeButtonState(object sender, EventArgs eventArgs)
-        {
-            if (string.IsNullOrEmpty(txtSite.Text))
+            if (chkCleanup.Checked)
             {
-                cbList.Enabled = false;
+                _sharepointService.DeleteAllListItems(txtSite.Text, cbList.Text);
             }
 
+            var list = _excelService.ReadListFromExcel(openFileDialog1.FileName);
+            _sharepointService.ImportObjectsToList(txtSite.Text, cbList.Text, list);
+
+            MessageBox.Show(this, "Import complete", this.Text, MessageBoxButtons.OK);
+
+            chkCleanup.Checked = false;
+        }
+
+        private void ChangeGuiState(object sender, EventArgs eventArgs)
+        {
             if (string.IsNullOrEmpty(txtSite.Text) || string.IsNullOrEmpty(cbList.Text))
             {
                 btnExport.Enabled = false;
                 btnImport.Enabled = false;
+                chkCleanup.Enabled = false;
             }
             else
             {
                 btnExport.Enabled = true;
                 btnImport.Enabled = true;
+                chkCleanup.Enabled = true;
             }
         }
     }

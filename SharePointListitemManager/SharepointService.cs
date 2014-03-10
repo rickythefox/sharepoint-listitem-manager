@@ -13,6 +13,7 @@ namespace SharePointListitemManager
         IList<string> GetAllListsForSite(string siteUrl);
         SharepointList ExportListToObjects(string siteUrl, string listName);
         void ImportObjectsToList(string siteUrl, string listName, SharepointList list);
+        void DeleteAllListItems(string siteUrl, string listName);
     }
 
     public class SharepointService : ISharepointService
@@ -95,6 +96,19 @@ namespace SharePointListitemManager
                 }
             }
             listItem.Update();
+        }
+
+        public void DeleteAllListItems(string siteUrl, string listName)
+        {
+            var site = new SPSite(siteUrl);
+            site.AllowUnsafeUpdates = true;
+            var spList = site.OpenWeb().Lists[listName];
+
+            foreach (SPListItem item in spList.Items)
+            {
+                item.Delete();
+            }
+            spList.Update();
         }
     }
 }

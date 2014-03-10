@@ -36,6 +36,7 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.chkCleanup = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -105,11 +106,22 @@
             this.saveFileDialog1.Filter = "Excel files|*.xlsx|All files|*.*";
             this.saveFileDialog1.Title = "Write list to";
             // 
+            // chkCleanup
+            // 
+            this.chkCleanup.AutoSize = true;
+            this.chkCleanup.Location = new System.Drawing.Point(11, 63);
+            this.chkCleanup.Name = "chkCleanup";
+            this.chkCleanup.Size = new System.Drawing.Size(143, 17);
+            this.chkCleanup.TabIndex = 7;
+            this.chkCleanup.Text = "Delete all items on import";
+            this.chkCleanup.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(452, 280);
+            this.Controls.Add(this.chkCleanup);
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.cbList);
@@ -133,6 +145,7 @@
         public System.Windows.Forms.ComboBox cbList;
         public System.Windows.Forms.Button btnExport;
         public System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.CheckBox chkCleanup;
     }
 }
 
