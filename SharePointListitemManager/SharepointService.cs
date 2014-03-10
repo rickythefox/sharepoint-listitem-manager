@@ -77,10 +77,10 @@ namespace SharePointListitemManager
             var site = new SPSite(siteUrl);
             site.AllowUnsafeUpdates = true;
             var spList = site.OpenWeb().Lists[listName];
-            var listItem = spList.Items.Add();
 
             foreach (var row in list.Rows)
             {
+                var listItem = spList.Items.Add();
                 var col = 0;
                 foreach (var value in row.Values)
                 {
@@ -94,8 +94,8 @@ namespace SharePointListitemManager
                     }
                     col++;
                 }
+                listItem.Update();
             }
-            listItem.Update();
         }
 
         public void DeleteAllListItems(string siteUrl, string listName)
